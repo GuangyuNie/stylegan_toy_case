@@ -13,7 +13,7 @@ Training code for stylegan toy case with customized loss terms
   <img src="https://github.com/GuangyuNie/stylegan_toy_case/blob/master/sample_image/output_9990.png" width="350" alt="output distribution">
 </p>
 <p align="center">
-latent distribution &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; output distribution
+latent w distribution &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; output distribution
 </p>
 # Note
 1. Hyperparameter not carefully tuned, the training may takes excessive time'
