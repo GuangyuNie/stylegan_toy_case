@@ -1,4 +1,4 @@
-# stylegan toy case
+# Stylegan toy case
 Training code for stylegan toy case with customized loss terms
 
 # Details
