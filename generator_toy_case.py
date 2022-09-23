@@ -30,6 +30,24 @@ class toy:
         data = torch.from_numpy(data_np).to(toy.device)
         return data
 
+    def data_gen_L(self):
+        """generate training data"""
+        data_np = np.empty((self.num_samples,3))
+        i=0
+        while i < self.num_samples-1:
+            a = np.random.rand(1)
+            b = np.random.rand(1)
+            if a > 0.3 and b > 0.3:
+                continue
+            x = a
+            y = a
+            z = b
+            data_np[i] = [x,y,z]
+            i+=1
+        data = torch.from_numpy(data_np).to(toy.device)
+        return data
+
+
 
 class Discriminator(nn.Module):
     def __init__(self):
@@ -186,7 +204,7 @@ if __name__ == '__main__':
     parser = get_parser()
     opt, _ = parser.parse_known_args()
     toy = toy()
-    data = toy.data_gen()
+    data = toy.data_gen_L()
     batch_size = toy.batch_size
     lr = opt.lr
     num_epochs = opt.epoch
@@ -212,6 +230,10 @@ if __name__ == '__main__':
         data, batch_size=batch_size, shuffle=True,drop_last=True
     )
 
+    # data = data.detach().cpu()
+    # ax = plt.axes(projection='3d')
+    # ax.scatter(data[:, 0], data[:, 1], data[:, 2], )
+    # plt.show()
     # Training
     for epoch in tqdm(range(num_epochs)):
         for n, real_samples in enumerate(train_loader):
@@ -243,7 +265,7 @@ if __name__ == '__main__':
 
             """generator loss, add additional loss term here, KL-regularization is currently used to pump the ball"""
             loss_generator = loss_function(output_discriminator_generated, real_samples_labels) + \
-                             opt.lm * F.kl_div(latent, z)
+                             opt.lm * F.kl_div(F.log_softmax(latent), F.log_softmax(z), log_target=True)
 
             loss_generator.backward()
             optimizer_generator.step()
